@@ -8,11 +8,11 @@
 class RoombaController
 {
     public:
-        MyTurtlesimController();
+        RoombaController();
         void process();
 
     private:
-        void pose_callback(const nav_msgs::Odometry::ConstPtr &msg);
+        void odometry_callback(const nav_msgs::Odometry::ConstPtr &msg);
         void go_straight();
         void turn();
 
