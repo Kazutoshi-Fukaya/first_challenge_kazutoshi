@@ -37,10 +37,16 @@ void RoombaController::process()
     ros::Rate loop_rate(hz_);
     geometry_msgs::Pose past_pose = current_pose;
     int straight = 0;
+    double dist_x = 0.0;
+    double dist_y = 0.0;
 
     while(ros::ok())
     {
-        if ((current_pose.position.x-past_pose.position.x)*(current_pose.position.x-past_pose.position.x)+(current_pose.position.y-past_pose.position.y)*(current_pose.position.y-past_pose.position.y) < 1.0) straight = 1;
+        dist_x = current_pose.position.x-past_pose.position.x;
+        dist_y = current_pose.position.y-past_pose.position.y;
+
+        if ((dist_x)*(dist_x)+(dist_y)*(dist_y) < 1.0) straight = 1;
+        else straight = 0;
 
         if (straight == 1) go_straight();
 
