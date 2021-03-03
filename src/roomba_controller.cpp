@@ -21,7 +21,7 @@ void RoombaController::odometry_callback(const nav_msgs::Odometry::ConstPtr &msg
 
 void RoombaController::go_straight()
 {
-//    std::cout<<current_pose<<std::endl;
+    std::cout<<current_pose<<std::endl;
     roomba_500driver_meiji::RoombaCtrl cmd_vel;
     cmd_vel.cntl.linear.x = 0.2;
     cmd_vel.mode = 11;
@@ -30,7 +30,7 @@ void RoombaController::go_straight()
 
 void RoombaController::turn()
 {
-//    std::cout<<current_pose<<std::endl;
+    std::cout<<current_pose<<std::endl;
     roomba_500driver_meiji::RoombaCtrl cmd_vel;
     cmd_vel.cntl.angular.z = 0.1;
     cmd_vel.mode = 11;
@@ -58,7 +58,7 @@ void RoombaController::process()
 //        delta_y = current_pose.position.y-past_pose.position.y;
 //        delta_dist = (dist_x)*(dist_x)+(dist_y)*(dist_y);
 
-        if (current_y*past_y < 0.0) delta_yaw = current_y-past_y+2*M_PI;
+        if (current_y*past_y < 0.0) delta_yaw = 0.1;
         else delta_yaw = current_y-past_y;
 
         sum_yaw += delta_yaw;
