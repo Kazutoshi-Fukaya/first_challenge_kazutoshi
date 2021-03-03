@@ -11,12 +11,12 @@ RoombaController::RoombaController():private_nh("~")
 
 void RoombaController::odometry_callback(const nav_msgs::Odometry::ConstPtr &msg)
 {
-    past_pose = current_pose;
+//    past_pose = current_pose;
     current_pose = msg->pose.pose;
-    tf::Quaternion current_quat(current_pose.orientation.x, current_pose.orientation.y, current_pose.orientation.z);
-    tf::Quaternion past_quat(past_pose.orientation.x, past_pose.orientation.y, past_pose.orientation.z);
-    tf::Matrix3x3(current_quat).getRPY(current_r, current_p, current_y);
-    tf::Matrix3x3(past_quat).getRPY(past_r, past_p, past_y);
+//    tf::Quaternion current_quat(current_pose.orientation.x, current_pose.orientation.y, current_pose.orientation.z);
+//    tf::Quaternion past_quat(past_pose.orientation.x, past_pose.orientation.y, past_pose.orientation.z);
+//    tf::Matrix3x3(current_quat).getRPY(current_r, current_p, current_y);
+//    tf::Matrix3x3(past_quat).getRPY(past_r, past_p, past_y);
 }
 
 void RoombaController::go_straight()
@@ -43,20 +43,31 @@ void RoombaController::process()
 
     ros::Duration(0.1).sleep();
 
-//    geometry_msgs::Pose past_pose = current_pose;
+    geometry_msgs::Pose past_pose = current_pose;
     int straight = 0;
     double delta_x = 0.0;
     double sum_x = 0.0;
 //    double delta_y = 0.0;
 //    double delta_dist = 0.0;
+
+    double current_r, current_p, current_y;
+    double past_r, past_p, past_y;
+
     double delta_yaw = 0.0;
     double sum_yaw = 0.0;
 
     while(ros::ok())
     {
+
+
         delta_x = current_pose.position.x-past_pose.position.x;
 //        delta_y = current_pose.position.y-past_pose.position.y;
 //        delta_dist = (dist_x)*(dist_x)+(dist_y)*(dist_y);
+
+        tf::Quaternion current_quat(current_pose.orientation.x, current_pose.orientation.y, current_pose.orientation.z);
+        tf::Quaternion past_quat(past_pose.orientation.x, past_pose.orientation.y, past_pose.orientation.z);
+        tf::Matrix3x3(current_quat).getRPY(current_r, current_p, current_y);
+        tf::Matrix3x3(past_quat).getRPY(past_r, past_p, past_y);
 
         if (current_y*past_y < 0.0) delta_yaw = 0.1;
         else delta_yaw = current_y-past_y;
@@ -78,6 +89,8 @@ void RoombaController::process()
 
         if (straight == 1) go_straight();
         else turn();
+
+        past_pose = current_pose;
 
         ros::spinOnce();
         loop_rate.sleep();
