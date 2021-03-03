@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="roomba_500driver_meiji" name="main500" type="main500" output="screen"/>
+    <node pkg="first_challenge_kazutoshi" name="roomba_controller" type="roomba_controller" output="screen"/>
+    <node pkg="urg_node" name="urg_node" type="urg_node"/>
+</launch>
