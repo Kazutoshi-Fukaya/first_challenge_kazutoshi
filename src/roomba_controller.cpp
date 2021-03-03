@@ -39,18 +39,22 @@ void RoombaController::process()
     int straight = 0;
     double dist_x = 0.0;
     double dist_y = 0.0;
-    double turn_z = 0.0;
+    double turn_psi = 0.0;
+    double current_psi = 0.0;
+    double past_psi = 0.0;
 
     while(ros::ok())
     {
         dist_x = current_pose.position.x-past_pose.position.x;
         dist_y = current_pose.position.y-past_pose.position.y;
-        if (current_pose.orientation.z-past_pose.orientation.z < 0.0) turn_z = current_pose.orientation.z-past_pose.orientation.z+2*M_PI;
-        else turn_z = current_pose.orientation.z-past_pose.orientation.z;
+        current_psi = asin(current_pose.orientation.w);
+        past_psi = current_psi;
+        if (current_psi-past_psi < 0.0) turn_psi = current_psi-past_psi+2*M_PI;
+        else turn_psi = current_psi-past_psi;
 
 
         if ((dist_x)*(dist_x)+(dist_y)*(dist_y) > 1.0) straight = 0;
-        if (turn_z >= M_PI)
+        if (turn_psi >= M_PI)
         {
             straight = 1;
             past_pose = current_pose;
