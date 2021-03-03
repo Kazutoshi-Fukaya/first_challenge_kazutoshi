@@ -39,27 +39,38 @@ void RoombaController::process()
     int straight = 0;
     double dist_x = 0.0;
     double dist_y = 0.0;
-    double turn_psi = 0.0;
-    double current_psi = 0.0;
-    double past_psi = 0.0;
+    double turn_y = 0.0;
+    double current_r = 0.0;
+    double current_p = 0.0;
+    double current_y = 0.0;
+    double past_r = 0.0;
+    double past_p = 0.0;
+    double past_y = 0.0;
+    tf::Quaternion current_quat(current_pose.orientation.x, current_pose.orientation.y, current_pose.orientation.z);
+    tf::Quaternion past_quat(past_pose.orientation.x, past_pose.orientation.y, past_pose.orientation.z);
+    tf::Matrix3x3(current_quat).getRPY(current_r, current_p, current_y);
+    tf::Matrix3x3(past_quat).getRPY(past_r, past_p, past_y);
 
     while(ros::ok())
     {
         dist_x = current_pose.position.x-past_pose.position.x;
         dist_y = current_pose.position.y-past_pose.position.y;
-        current_psi = asin(current_pose.orientation.w)*2.0;
+        tf::Quaternion current_quat(current_pose.orientation.x, current_pose.orientation.y, current_pose.orientation.z);
+        tf::Matrix3x3(current_quat).getRPY(current_r, current_p, current_y);
+        tf::Quaternion past_quat(past_pose.orientation.x, past_pose.orientation.y, past_pose.orientation.z);
+        tf::Matrix3x3(past_quat).getRPY(past_r, past_p, past_y);
 
-        if (current_psi-past_psi < 0.0) turn_psi = current_psi-past_psi+2*M_PI;
-        else turn_psi = current_psi-past_psi;
+        if (current_y-past_y < 0.0) turn_y = current_y-past_y+2*M_PI;
+        else turn_y = current_y-past_y;
 
 
         if ((dist_x)*(dist_x)+(dist_y)*(dist_y) > 1.0) straight = 0;
-        if (turn_psi >= M_PI)
+        if (turn_y >= M_PI)
         {
             straight = 1;
             past_pose = current_pose;
-            current_psi = asin(current_pose.orientation.w);
-            past_psi = current_psi;
+            tf::Quaternion past_quat(past_pose.orientation.x, past_pose.orientation.y, past_pose.orientation.z);
+            tf::Matrix3x3(past_quat).getRPY(past_r, past_p, past_y);
         }
 
 

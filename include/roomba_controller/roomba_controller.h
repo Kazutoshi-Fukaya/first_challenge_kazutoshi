@@ -3,6 +3,7 @@
 
 #include "ros/ros.h"
 #include "nav_msgs/Odometry.h"
+#include "tf/tf.h"
 #include "roomba_500driver_meiji/RoombaCtrl.h"
 
 class RoombaController
