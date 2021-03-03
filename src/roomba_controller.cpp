@@ -75,6 +75,7 @@ void RoombaController::process()
         sum_yaw += delta_yaw;
         sum_x += delta_x;
 
+        std::cout<<"current_y="<<current_y<<"  past_y="<<past_y<<std::endl;
         std::cout<<"delta_x="<<delta_x<<"  delta_yaw="<<delta_yaw<<std::endl;
         std::cout<<"sum_x="<<sum_x<<"  sum_yaw="<<sum_yaw<<std::endl;
 
