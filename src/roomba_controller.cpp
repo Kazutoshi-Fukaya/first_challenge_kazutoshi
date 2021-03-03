@@ -63,6 +63,7 @@ void RoombaController::process()
         if (current_y-past_y < 0.0) turn_y = current_y-past_y+2*M_PI;
         else turn_y = current_y-past_y;
 
+        std::cout<<current_y<<" "<<past_y<<std::endl;
 
         if ((dist_x)*(dist_x)+(dist_y)*(dist_y) > 1.0) straight = 0;
         if (turn_y >= M_PI)
