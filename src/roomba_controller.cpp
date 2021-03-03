@@ -64,8 +64,8 @@ void RoombaController::process()
 //        delta_y = current_pose.position.y-past_pose.position.y;
 //        delta_dist = (dist_x)*(dist_x)+(dist_y)*(dist_y);
 
-        tf::Quaternion current_quat(current_pose.orientation.x, current_pose.orientation.y, current_pose.orientation.z);
-        tf::Quaternion past_quat(past_pose.orientation.x, past_pose.orientation.y, past_pose.orientation.z);
+        tf::Quaternion current_quat(current_pose.orientation.x, current_pose.orientation.y, current_pose.orientation.z, current_pose.orientation.w);
+        tf::Quaternion past_quat(past_pose.orientation.x, past_pose.orientation.y, past_pose.orientation.z, past_pose.orientation.w);
         tf::Matrix3x3(current_quat).getRPY(current_r, current_p, current_y);
         tf::Matrix3x3(past_quat).getRPY(past_r, past_p, past_y);
 
