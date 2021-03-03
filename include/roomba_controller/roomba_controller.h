@@ -24,12 +24,12 @@ class RoombaController
         ros::Subscriber sub_pose;
         ros::Publisher pub_cmd_vel;
         geometry_msgs::Pose current_pose;
-//        geometry_msgs::Pose past_pose;
-//        double current_r;
-//        double current_p;
-//        double current_y;
-//        double past_r;
-//        double past_p;
-//        double past_y;
+        geometry_msgs::Pose past_pose;
+        double current_r;
+        double current_p;
+        double current_y;
+        double past_r;
+        double past_p;
+        double past_y;
 };
 #endif
