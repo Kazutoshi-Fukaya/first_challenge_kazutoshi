@@ -44,7 +44,7 @@ void RoombaController::process()
     ros::Duration(0.1).sleep();
 
     geometry_msgs::Pose past_pose = current_pose;
-    int straight = 0;
+    int straight = 1;
     double delta_x = 0.0;
     double sum_x = 0.0;
 //    double delta_y = 0.0;
