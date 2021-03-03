@@ -45,28 +45,33 @@ void RoombaController::process()
 
 //    geometry_msgs::Pose past_pose = current_pose;
     int straight = 0;
-    double dist_x = 0.0;
-    double dist_y = 0.0;
-    double delta_y = 0.0;
-    double sum_y = 0.0;
+    double delta_x = 0.0;
+    double sum_x = 0.0;
+//    double delta_y = 0.0;
+//    double delta_dist = 0.0;
+    double delta_yaw = 0.0;
+    double sum_yaw = 0.0;
 
     while(ros::ok())
     {
-        dist_x = current_pose.position.x-past_pose.position.x;
-        dist_y = current_pose.position.y-past_pose.position.y;
+        delta_x = current_pose.position.x-past_pose.position.x;
+//        delta_y = current_pose.position.y-past_pose.position.y;
+//        delta_dist = (dist_x)*(dist_x)+(dist_y)*(dist_y);
 
-        if (current_y*past_y < 0.0) delta_y = current_y-past_y+2*M_PI;
-        else delta_y = current_y-past_y;
+        if (current_y*past_y < 0.0) delta_yaw = current_y-past_y+2*M_PI;
+        else delta_yaw = current_y-past_y;
 
-        sum_y += delta_y;
+        sum_yaw += delta_yaw;
+        sum_x += delta_x;
 
         std::cout<<current_y<<" "<<past_y<<std::endl;
 
-        if ((dist_x)*(dist_x)+(dist_y)*(dist_y) > 1.0) straight = 0;
-        if (sum_y >= M_PI)
+        if (sum_x > 1.0) straight = 0;
+        if (sum_yaw >= M_PI)
         {
             straight = 1;
-            sum_y = 0.0;
+            sum_yaw = 0.0;
+            sum_x = 0.0;
         }
 
 
