@@ -47,7 +47,7 @@ void RoombaController::process()
     {
         dist_x = current_pose.position.x-past_pose.position.x;
         dist_y = current_pose.position.y-past_pose.position.y;
-        current_psi = asin(current_pose.orientation.w);
+        current_psi = asin(current_pose.orientation.w)*2.0;
 
         if (current_psi-past_psi < 0.0) turn_psi = current_psi-past_psi+2*M_PI;
         else turn_psi = current_psi-past_psi;
