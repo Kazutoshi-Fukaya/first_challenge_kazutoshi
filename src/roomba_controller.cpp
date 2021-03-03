@@ -64,7 +64,8 @@ void RoombaController::process()
         sum_yaw += delta_yaw;
         sum_x += delta_x;
 
-        std::cout<<"delta_x="<<delta_x<<"  delta_yaw"<<delta_yaw<<std::endl;
+        std::cout<<"delta_x="<<delta_x<<"  delta_yaw="<<delta_yaw<<std::endl;
+        std::cout<<"sum_x="<<sum_x<<"  sum_yaw="<<delta_yaw<<std::endl;
 
         if (sum_x > 1.0) straight = 0;
         if (sum_yaw >= M_PI)
