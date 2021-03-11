@@ -5,6 +5,7 @@ RoombaController::RoombaController():private_nh("~")
     private_nh.param("hz",hz_,{10});
 
     sub_pose = nh.subscribe("/roomba/odometry",10,&RoombaController::odometry_callback,this);
+    sub_laserscan = nh.subscribe("/scan",10,&RoombaController::laserscan_callback,this);
 
     pub_cmd_vel = nh.advertise<roomba_500driver_meiji::RoombaCtrl>("/roomba/control",1);
 }

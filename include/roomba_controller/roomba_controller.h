@@ -25,6 +25,7 @@ class RoombaController
         ros::NodeHandle nh;
         ros::NodeHandle private_nh;
         ros::Subscriber sub_pose;
+        ros::Subscriber sub_laserscan;
         ros::Publisher pub_cmd_vel;
         geometry_msgs::Pose current_pose;
         geometry_msgs::Pose past_pose;
