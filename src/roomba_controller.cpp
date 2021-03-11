@@ -47,7 +47,7 @@ void RoombaController::process()
     ros::Duration(0.1).sleep();
 
 //    geometry_msgs::Pose past_pose = current_pose;
-    int straight = 1;
+    int stage = 0;
 //    double delta_x = 0.0;
 //    double sum_x = 0.0;
 //    double delta_y = 0.0;
@@ -82,17 +82,27 @@ void RoombaController::process()
 //        std::cout<<"delta_x="<<delta_x<<"  delta_yaw="<<delta_yaw<<std::endl;
         std::cout<<"sum_x="<<sum_x<<"  sum_yaw="<<sum_yaw<<std::endl;
 
-        if (sum_x > 1.0) straight = 0;
-        if (sum_yaw >= M_PI)
-        {
-            straight = 1;
+        if (stage==0 && sum_x>1.0) {
+            stage = 1;
             sum_yaw = 0.0;
             sum_x = 0.0;
         }
+        if (stage==1 && sum_yaw>=2*M_PI)
+        {
+            stage = 2;
+            sum_yaw = 0.0;
+            sum_x = 0.0;
+        }
+        if (stage==2 && sum_x>0.5) {
+            stage = 3;
+            sum_yaw;
+            sum_x;
+        }
 
 
-        if (straight == 1) go_straight();
-        else turn();
+        if (stage == 0) go_straight();
+        if (stage == 1) turn();
+        if (stage == 2) go_straight();
 
 //        past_pose = current_pose;
 
