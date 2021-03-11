@@ -16,6 +16,7 @@ class RoombaController
         void odometry_callback(const nav_msgs::Odometry::ConstPtr &msg);
         void go_straight();
         void turn();
+        void stop();
 
         int hz_;
 

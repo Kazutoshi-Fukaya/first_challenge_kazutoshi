@@ -40,6 +40,13 @@ void RoombaController::turn()
     pub_cmd_vel.publish(cmd_vel);
 }
 
+void RoombaController::stop()
+{
+    roomba_500driver_meiji::RoombaCtrl cmd_vel;
+    cmd_vel.mode = 11;
+    pub_cmd_vel.publish(cmd_vel);
+}
+
 void RoombaController::process()
 {
     ros::Rate loop_rate(hz_);
