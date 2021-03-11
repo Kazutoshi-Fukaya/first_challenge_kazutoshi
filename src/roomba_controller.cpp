@@ -22,9 +22,15 @@ void RoombaController::odometry_callback(const nav_msgs::Odometry::ConstPtr &msg
     if(current_y-past_y>-M_PI) sum_yaw += current_y-past_y;
 }
 
+void RoombaController::laserscan_callback(const sensor_msgs::LaserScan::ConstPtr &msg)
+{
+    current_ranges = msg->ranges;
+    wall_dist = current_ranges[current_ranges.size()/2];
+}
+
 void RoombaController::go_straight()
 {
-    std::cout<<current_pose<<std::endl;
+//    std::cout<<current_pose<<std::endl;
     roomba_500driver_meiji::RoombaCtrl cmd_vel;
     cmd_vel.cntl.linear.x = 0.2;
     cmd_vel.mode = 11;
@@ -33,7 +39,7 @@ void RoombaController::go_straight()
 
 void RoombaController::turn()
 {
-    std::cout<<current_pose<<std::endl;
+//    std::cout<<current_pose<<std::endl;
     roomba_500driver_meiji::RoombaCtrl cmd_vel;
     cmd_vel.cntl.angular.z = 0.1;
     cmd_vel.mode = 11;
@@ -88,6 +94,7 @@ void RoombaController::process()
 //        std::cout<<"current_y="<<current_y<<"  past_y="<<past_y<<std::endl;
 //        std::cout<<"delta_x="<<delta_x<<"  delta_yaw="<<delta_yaw<<std::endl;
         std::cout<<"sum_x="<<sum_x<<"  sum_yaw="<<sum_yaw<<std::endl;
+        std::cout<<"wall_dist="<<wall_dist<<std::endl;
 
         if (stage==0 && sum_x>1.0) {
             stage = 1;
@@ -100,7 +107,7 @@ void RoombaController::process()
             sum_yaw = 0.0;
             sum_x = 0.0;
         }
-        if (stage==2 && sum_x>0.5) {
+        if (stage==2 && wall_dist<0.5) {
             stage = 3;
             sum_yaw;
             sum_x;
@@ -110,6 +117,7 @@ void RoombaController::process()
         if (stage == 0) go_straight();
         if (stage == 1) turn();
         if (stage == 2) go_straight();
+        if (stage == 3) stop();
 
 //        past_pose = current_pose;
 
