@@ -31,5 +31,7 @@ class RoombaController
         double past_r;
         double past_p;
         double past_y;
+        double sum_yaw = 0.0;
+        double sum_x = 0.0;
 };
 #endif

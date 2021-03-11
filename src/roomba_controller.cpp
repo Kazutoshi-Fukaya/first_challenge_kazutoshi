@@ -17,6 +17,9 @@ void RoombaController::odometry_callback(const nav_msgs::Odometry::ConstPtr &msg
     tf::Quaternion past_quat(past_pose.orientation.x, past_pose.orientation.y, past_pose.orientation.z, past_pose.orientation.w);
     tf::Matrix3x3(current_quat).getRPY(current_r, current_p, current_y);
     tf::Matrix3x3(past_quat).getRPY(past_r, past_p, past_y);
+
+    sum_x += current_pose.position.x-past_pose.position.x;
+    if(current_y-past_y>-M_PI) sum_yaw += current_y-past_y;
 }
 
 void RoombaController::go_straight()
@@ -45,22 +48,22 @@ void RoombaController::process()
 
 //    geometry_msgs::Pose past_pose = current_pose;
     int straight = 1;
-    double delta_x = 0.0;
-    double sum_x = 0.0;
+//    double delta_x = 0.0;
+//    double sum_x = 0.0;
 //    double delta_y = 0.0;
 //    double delta_dist = 0.0;
 
 //    double current_r, current_p, current_y;
 //    double past_r, past_p, past_y;
 
-    double delta_yaw = 0.0;
-    double sum_yaw = 0.0;
+//    double delta_yaw = 0.0;
+//    double sum_yaw = 0.0;
 
     while(ros::ok())
     {
 
 
-        delta_x = current_pose.position.x-past_pose.position.x;
+//        delta_x = current_pose.position.x-past_pose.position.x;
 //        delta_y = current_pose.position.y-past_pose.position.y;
 //        delta_dist = (dist_x)*(dist_x)+(dist_y)*(dist_y);
 
@@ -69,14 +72,14 @@ void RoombaController::process()
 //        tf::Matrix3x3(current_quat).getRPY(current_r, current_p, current_y);
 //        tf::Matrix3x3(past_quat).getRPY(past_r, past_p, past_y);
 
-        if (current_y*past_y < 0.0) delta_yaw = 0.1;
-        else delta_yaw = current_y-past_y;
+//        if (current_y*past_y < 0.0) delta_yaw = 0.1;
+//        else delta_yaw = current_y-past_y;
 
-        sum_yaw += delta_yaw;
-        sum_x += delta_x;
+//        sum_yaw += delta_yaw;
+//        sum_x += delta_x;
 
-        std::cout<<"current_y="<<current_y<<"  past_y="<<past_y<<std::endl;
-        std::cout<<"delta_x="<<delta_x<<"  delta_yaw="<<delta_yaw<<std::endl;
+//        std::cout<<"current_y="<<current_y<<"  past_y="<<past_y<<std::endl;
+//        std::cout<<"delta_x="<<delta_x<<"  delta_yaw="<<delta_yaw<<std::endl;
         std::cout<<"sum_x="<<sum_x<<"  sum_yaw="<<sum_yaw<<std::endl;
 
         if (sum_x > 1.0) straight = 0;
